@@ -1,0 +1,32 @@
+{
+  "name": "jsonpClient",
+  "version": "0.0.0",
+  "description": "A simple jsonp client",
+  "authors": [
+    "FTVEN"
+  ],
+  "moduleType": [
+    "amd",
+    "globals"
+  ],
+  "keywords": [
+    "jsonp",
+    "loader"
+  ],
+  "license": "MIT",
+  "private": true,
+  "homepage": "https://gitlab.ftven.net/player/jsonpclient",
+  "main": "index.js",
+  "devDependencies": {
+    "requirejs-bower": "*",
+    "mocha": "*",
+    "chai": "*",
+    "sinonjs": "*"
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "tests"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+    "name": "jsonpClient",
+    "version": "0.0.0",
+    "description": "A simple jsonp client",
+    "author": "FTVEN",
+    "keywords": [
+        "jsonp",
+        "loader"
+    ],
+    "license": "MIT",
+    "private": true,
+    "repository": {
+        "type": "git",
+        "url": "https://gitlab.ftven.net/player/jsonpclient"
+    },
+    "main": "index.js",
+    "scripts": {
+        "postinstall": "bower install",
+        "test": "mocha-phantomjs -R spec tests/testrunner.html"
+    },
+    "devDependencies": {
+        "bower": "*",
+        "mocha-phantomjs": "*"
+    }
+}

@@ -1,0 +1,1 @@
+malformed-callback({expected:'content'});

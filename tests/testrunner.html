@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../bower_components/mocha/mocha.css"/>
+
+<div id="mocha"></div>
+
+<script type="text/javascript" src="../bower_components/requirejs-bower/require.js"></script>
+<script type="text/javascript">
+    // requireJS config setup
+    require.config({
+        baseUrl: "../",
+        paths: {
+            'mocha': 'bower_components/mocha/mocha',
+            'chai': 'bower_components/chai/chai',
+            'sinon': 'bower_components/sinonjs/sinon'
+        },
+        shim: {
+            mocha: {
+                exports : 'mocha'
+            },
+            sinon: {
+                exports : 'sinon'
+            }
+        }
+    });
+
+    require(['mocha'], function(mocha) {
+        // mocha setup
+        mocha.setup('bdd');
+
+        mocha = window.mochaPhantomJS ? mochaPhantomJS : mocha;
+
+        // require the test file
+        require(['tests/index'], function() {
+            mocha.run();
+        });
+    });
+</script>
