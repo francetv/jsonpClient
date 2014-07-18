@@ -83,7 +83,7 @@
                 this.loadScript(url, this._scriptLoadCallback.bind(this, request));
             },
 
-            _defaultTimeout: 300,
+            _defaultTimeout: 500,
 
             _requestsCount: 0,
 
