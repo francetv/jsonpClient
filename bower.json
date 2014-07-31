@@ -1,6 +1,6 @@
 {
   "name": "jsonpClient",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "A simple jsonp client",
   "authors": [
     "FTVEN"
@@ -16,7 +16,7 @@
   "license": "MIT",
   "private": true,
   "homepage": "https://gitlab.ftven.net/player/jsonpclient",
-  "main": "index.js",
+  "main": "jsonpClient.js",
   "devDependencies": {
     "requirejs-bower": "*",
     "mocha": "*",
@@ -27,6 +27,6 @@
     "**/.*",
     "node_modules",
     "bower_components",
-    "tests"
+    "test"
   ]
 }

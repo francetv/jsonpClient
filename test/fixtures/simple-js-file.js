@@ -1,0 +1,1 @@
+console.log('simple-js-file.js loaded');
