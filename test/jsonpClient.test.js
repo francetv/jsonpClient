@@ -60,7 +60,7 @@
 
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(['../jsonpClient', 'chai', 'sinon', 'mocha'], factory);
+        define(['jsonpClient', 'chai', 'sinon', 'mocha'], factory);
     } else {
         // Browser globals
         factory(global.jsonpClient, global.chai, global.sinon, global.mocha);

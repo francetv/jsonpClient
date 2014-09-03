@@ -22,7 +22,13 @@ How to use it
 This library implements [UMD](http://bob.yexley.net/umd-javascript-that-runs-anywhere/), so you can import it with AMD or browser globals
 
 ```javascript
-require(['bower_components/jsonpClient/index', ...], function (jsonpClient, ...) {
+require.config({
+    paths: {
+        ...
+        jsonpClient: './bower_components/jsonpClient/jsonpClient.min.js'
+    }
+})
+require(['jsonpClient', ...], function (jsonpClient, ...) {
     ...
 });
 ```
@@ -30,6 +36,6 @@ require(['bower_components/jsonpClient/index', ...], function (jsonpClient, ...)
 or
 
 ```html
-<script type="text/javascript" src="./bower_components/jsonpClient/index.js" />
+<script type="text/javascript" src="./bower_components/jsonpClient/jsonpClient.min.js" />
 ```
 

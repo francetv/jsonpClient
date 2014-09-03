@@ -16,7 +16,7 @@
   "license": "MIT",
   "private": true,
   "homepage": "https://gitlab.ftven.net/player/jsonpclient",
-  "main": "jsonpClient.js",
+  "main": "jsonpClient.min.js",
   "devDependencies": {
     "requirejs-bower": "*",
     "mocha": "*",
@@ -27,6 +27,11 @@
     "**/.*",
     "node_modules",
     "bower_components",
-    "test"
+    "test",
+    "src",
+    "cov.html",
+    "Gruntfile.js",
+    "grunt-tasks",
+    "package.json"
   ]
 }
