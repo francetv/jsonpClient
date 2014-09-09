@@ -11,7 +11,7 @@ This library has been declined in a bower component so in order to use it just a
 ```json
 "dependencies": {
     ...
-    "jsonpClient": "git@gitlab.ftven.net:player/jsonpclient.git"
+    "jsonpClient": "https://github.com/francetv/jsonpClient.git"
     ...
 }
 ```

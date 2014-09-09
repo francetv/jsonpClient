@@ -1,6 +1,6 @@
 {
     "name": "jsonpClient",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "A simple jsonp client",
     "author": "FTVEN",
     "keywords": [
@@ -11,7 +11,7 @@
     "private": true,
     "repository": {
         "type": "git",
-        "url": "https://gitlab.ftven.net/player/jsonpclient"
+        "url": "https://github.com/francetv/jsonpClient.git"
     },
     "main": "src/jsonpClient.js",
     "scripts": {
