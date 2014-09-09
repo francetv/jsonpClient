@@ -11,7 +11,7 @@
     "private": true,
     "repository": {
         "type": "git",
-        "url": "https://gitlab.ftven.net/player/jsonpclient"
+        "url": "https://github.com/francetv/jsonpClient.git"
     },
     "main": "src/jsonpClient.js",
     "scripts": {
