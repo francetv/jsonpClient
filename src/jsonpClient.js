@@ -2,8 +2,6 @@
     "use strict";
 
     function factory() {
-        var firstScript;
-
         return {
             loadScript: function loadScript(url, callback) {
                 var script = document.createElement('script');
@@ -39,11 +37,11 @@
                 script.async = true;
                 script.src = url;
 
-                if (!firstScript) {
-                    firstScript = document.getElementsByTagName('script')[0];
+                if (!this._firstScript) {
+                    this._firstScript = document.getElementsByTagName('script')[0];
                 }
 
-                firstScript.parentNode.insertBefore(script, firstScript);
+                this._firstScript.parentNode.insertBefore(script, this._firstScript);
             },
 
             get: function get(request, callback) {
@@ -74,9 +72,7 @@
                 if (/\{\{CALLBACK_NAME\}\}/.test(request.url)) {
                     url = url.replace('{{CALLBACK_NAME}}', request.callbackName);
                 } else {
-                    if (!~url.indexOf('?')) {
-                        url += ~url.indexOf('?') ? '&' : '?';
-                    }
+                    url += ~url.indexOf('?') ? '&' : '?';
                     url += (request.queryStringKey || 'callback') + '=' + request.callbackName;
                 }
 
