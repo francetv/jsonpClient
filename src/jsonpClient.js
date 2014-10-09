@@ -1,4 +1,4 @@
-(function(global, document, setTimeout, clearTimeout) {
+;(function(global, document, setTimeout, clearTimeout) {
     "use strict";
 
     function factory() {
