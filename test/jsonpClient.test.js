@@ -105,7 +105,7 @@
 
                     return scriptMock;
                 }
-                return stubObject.backups.documentGetElementsByTagName.apply(this, arguments);
+                return stubObject.backups.documentCreateElement.apply(this, arguments);
             };
 
             return stubObject;
