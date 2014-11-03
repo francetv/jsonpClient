@@ -30,28 +30,6 @@ module.exports = function(grunt) {
         }
       }
     },
-    bump: {
-      options: {
-        files: ['package.json', 'bower.json'],
-        updateConfigs: ['pkg', 'bwr'],
-        commit: true,
-        commitMessage: 'Release version %VERSION%',
-        commitFiles: [
-          'package.json',
-          'bower.json',
-          '<%= pkg.name %>.min.js',
-          '<%= pkg.name %>.standalone.min.js',
-          'cov.html'
-        ],
-        commitForceAdd: true,
-        createTag: true,
-        tagName: '%VERSION%',
-        tagMessage: 'Version %VERSION%',
-        push: true,
-        pushTo: 'origin',
-        gitDescribeOptions: '--tags --always --abbrev=1 --dirty=-d'
-      }
-    },
     'check-coverage': {
       src: ['src/**/*.js'],
       options: {
@@ -62,7 +40,6 @@ module.exports = function(grunt) {
     'check-git-clean': {
       options: {
         ignore: [
-          '<%= pkg.name %>*.js',
           '<%= pkg.name %>.min.js',
           'cov.html'
         ]
@@ -74,7 +51,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-requirejs');
   grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-bump');
 
   grunt.loadTasks('grunt-tasks');
 
