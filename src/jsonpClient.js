@@ -37,11 +37,8 @@
                 script.async = true;
                 script.src = url;
 
-                if (!this._firstScript) {
-                    this._firstScript = document.getElementsByTagName('script')[0];
-                }
-
-                this._firstScript.parentNode.insertBefore(script, this._firstScript);
+                var firstScript = document.getElementsByTagName('script')[0];
+                firstScript.parentNode.insertBefore(script, firstScript);
             },
 
             get: function get(request, callback) {

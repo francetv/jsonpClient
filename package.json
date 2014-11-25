@@ -1,6 +1,6 @@
 {
   "name": "jsonpClient",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "A simple jsonp client",
   "author": "FTVEN",
   "keywords": [
@@ -21,15 +21,17 @@
   "devDependencies": {
     "bower": "*",
     "grunt": "*",
-    "grunt-bump": "git://github.com/francetv/grunt-bump.git",
     "grunt-cli": "*",
     "grunt-contrib-clean": "*",
+    "grunt-contrib-rename": "*",
     "grunt-contrib-requirejs": "*",
     "grunt-contrib-uglify": "*",
+    "grunt-contrib-watch": "*",
     "grunt-mocha-phantomjs": "*",
     "jscoverage": "*",
     "json2htmlcov": "git://github.com/francetv/json2htmlcov.git",
-    "mocha-phantomjs": "*"
+    "mocha-phantomjs": "*",
+    "morkdown": "*"
   },
   "directories": {
     "test": "test"
