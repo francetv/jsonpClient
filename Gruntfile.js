@@ -52,7 +52,7 @@ module.exports = function(grunt) {
     'check-coverage': {
       src: ['src/**/*.js'],
       options: {
-        minimumCov: 64,
+        minimumCov: 93,
         testRunnerFile: 'test/testrunner.html'
       }
     },
