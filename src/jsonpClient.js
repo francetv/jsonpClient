@@ -8,7 +8,7 @@
 
             get: function get(request, callback) {
                 // handle function polymorphism with two possible signatures :
-                // - request object containing any of : url*, callbackName, queryStringKey
+                // - request object containing any of : url*, callbackName, queryStringKey, timeout, callback
                 // - request url
                 if (typeof request === 'string') {
                     request = {
@@ -16,7 +16,7 @@
                     };
                 }
 
-                request.callback = callback;
+                request.callback = callback || request.callback;
 
                 if (!('timeout' in request)) {
                     request.timeout = this._defaultTimeout;
