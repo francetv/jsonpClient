@@ -1,45 +1,10 @@
 (function(global, document, setTimeout, clearTimeout) {
     "use strict";
 
-    function factory() {
+    function factory(scriptloader) {
         return {
-            loadScript: function loadScript(url, callback) {
-                var script = document.createElement('script');
-                var done = false;
-
-                function finish(error) {
-                    if (done) {
-                        return;
-                    }
-                    done = true;
-
-                    script.parentNode.removeChild(script);
-
-                    callback(error);
-                }
-
-                function abort() {
-                    finish(new Error('script load error'));
-                }
-
-                if (script.addEventListener) {
-                    script.addEventListener('load', finish.bind(null, null), true);
-                    script.addEventListener('error', abort, true);
-                } else {
-                    script.onload = script.onreadystatechange = function() {
-                        if (!this.readyState || this.readyState === 'loaded' || this.readyState === 'complete') {
-                            finish();
-                        }
-                    };
-                    script.onerror = abort;
-                }
-
-                script.async = true;
-                script.src = url;
-
-                var firstScript = document.getElementsByTagName('script')[0];
-                firstScript.parentNode.insertBefore(script, firstScript);
-            },
+            // Set for legacy... should be deprecated ?
+            loadScript: scriptloader,
 
             get: function get(request, callback) {
                 // handle function polymorphism with two possible signatures :
@@ -73,7 +38,7 @@
                     url += (request.queryStringKey || 'callback') + '=' + request.callbackName;
                 }
 
-                this.loadScript(url, this._scriptLoadCallback.bind(this, request));
+                scriptloader(url, this._scriptLoadCallback.bind(this, request));
             },
 
             _defaultTimeout: 500,
@@ -127,9 +92,9 @@
 
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define([], factory);
+        define(['scriptloader'], factory);
     } else {
         // Browser globals
-        global.jsonpClient = factory();
+        global.jsonpClient = factory(scriptloader);
     }
 }(this, this.document, this.setTimeout, this.clearTimeout));

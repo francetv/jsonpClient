@@ -17,6 +17,9 @@
   "private": true,
   "homepage": "https://github.com/francetv/jsonpClient.git",
   "main": "jsonpClient.min.js",
+  "dependencies": {
+    "scriptloader": "https://github.com/francetv/scriptloader.git#1.0.x"
+  },
   "devDependencies": {
     "requirejs-bower": "*",
     "mocha": "*",
