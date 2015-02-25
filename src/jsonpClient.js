@@ -2,7 +2,7 @@
     "use strict";
 
     function factory(scriptloader) {
-        return {
+        var jsonpClient = {
             // Set for legacy... should be deprecated ?
             loadScript: scriptloader,
 
@@ -19,16 +19,16 @@
                 request.callback = callback || request.callback;
 
                 if (!('timeout' in request)) {
-                    request.timeout = this._defaultTimeout;
+                    request.timeout = jsonpClient._defaultTimeout;
                 }
 
-                request.callbackName = request.callbackName || '_jsonp_loader_callback_request_' + this._requestsCount++;
+                request.callbackName = request.callbackName || '_jsonp_loader_callback_request_' + jsonpClient._requestsCount++;
 
                 if (request.timeout) {
-                    request.timeoutHandler = setTimeout(this._abortRequest.bind(this, request), request.timeout);
+                    request.timeoutHandler = setTimeout(jsonpClient._abortRequest.bind(jsonpClient, request), request.timeout);
                 }
 
-                global[request.callbackName] = this._receiveData.bind(this, request);
+                global[request.callbackName] = jsonpClient._receiveData.bind(jsonpClient, request);
 
                 var url = request.url;
                 if (/\{\{CALLBACK_NAME\}\}/.test(request.url)) {
@@ -38,7 +38,7 @@
                     url += (request.queryStringKey || 'callback') + '=' + request.callbackName;
                 }
 
-                scriptloader(url, this._scriptLoadCallback.bind(this, request));
+                scriptloader(url, jsonpClient._scriptLoadCallback.bind(jsonpClient, request));
             },
 
             _defaultTimeout: 500,
@@ -46,7 +46,7 @@
             _requestsCount: 0,
 
             _receiveData: function _receiveData(request, data) {
-                this._cleanup(request);
+                jsonpClient._cleanup(request);
 
                 if (request.aborted) {
                     return;
@@ -68,7 +68,7 @@
 
             _scriptLoadCallback: function _scriptLoadCallback(request, error) {
                 if (error) {
-                    this._cleanup(request);
+                    jsonpClient._cleanup(request);
                     if (!request.aborted) {
                         request.callback(error);
                     }
@@ -88,6 +88,8 @@
                 }
             }
         };
+
+        return jsonpClient;
     }
 
     if (typeof define === 'function' && define.amd) {
