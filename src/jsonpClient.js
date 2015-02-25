@@ -1,49 +1,14 @@
 (function(global, document, setTimeout, clearTimeout) {
     "use strict";
 
-    function factory() {
-        return {
-            loadScript: function loadScript(url, callback) {
-                var script = document.createElement('script');
-                var done = false;
-
-                function finish(error) {
-                    if (done) {
-                        return;
-                    }
-                    done = true;
-
-                    script.parentNode.removeChild(script);
-
-                    callback(error);
-                }
-
-                function abort() {
-                    finish(new Error('script load error'));
-                }
-
-                if (script.addEventListener) {
-                    script.addEventListener('load', finish.bind(null, null), true);
-                    script.addEventListener('error', abort, true);
-                } else {
-                    script.onload = script.onreadystatechange = function() {
-                        if (!this.readyState || this.readyState === 'loaded' || this.readyState === 'complete') {
-                            finish();
-                        }
-                    };
-                    script.onerror = abort;
-                }
-
-                script.async = true;
-                script.src = url;
-
-                var firstScript = document.getElementsByTagName('script')[0];
-                firstScript.parentNode.insertBefore(script, firstScript);
-            },
+    function factory(scriptloader) {
+        var jsonpClient = {
+            // Set for legacy... should be deprecated ?
+            loadScript: scriptloader,
 
             get: function get(request, callback) {
                 // handle function polymorphism with two possible signatures :
-                // - request object containing any of : url*, callbackName, queryStringKey
+                // - request object containing any of : url*, callbackName, queryStringKey, timeout, callback
                 // - request url
                 if (typeof request === 'string') {
                     request = {
@@ -51,19 +16,19 @@
                     };
                 }
 
-                request.callback = callback;
+                request.callback = callback || request.callback;
 
                 if (!('timeout' in request)) {
-                    request.timeout = this._defaultTimeout;
+                    request.timeout = jsonpClient._defaultTimeout;
                 }
 
-                request.callbackName = request.callbackName || '_jsonp_loader_callback_request_' + this._requestsCount++;
+                request.callbackName = request.callbackName || '_jsonp_loader_callback_request_' + jsonpClient._requestsCount++;
 
                 if (request.timeout) {
-                    request.timeoutHandler = setTimeout(this._abortRequest.bind(this, request), request.timeout);
+                    request.timeoutHandler = setTimeout(jsonpClient._abortRequest.bind(jsonpClient, request), request.timeout);
                 }
 
-                global[request.callbackName] = this._receiveData.bind(this, request);
+                global[request.callbackName] = jsonpClient._receiveData.bind(jsonpClient, request);
 
                 var url = request.url;
                 if (/\{\{CALLBACK_NAME\}\}/.test(request.url)) {
@@ -73,7 +38,7 @@
                     url += (request.queryStringKey || 'callback') + '=' + request.callbackName;
                 }
 
-                this.loadScript(url, this._scriptLoadCallback.bind(this, request));
+                scriptloader(url, jsonpClient._scriptLoadCallback.bind(jsonpClient, request));
             },
 
             _defaultTimeout: 500,
@@ -81,7 +46,7 @@
             _requestsCount: 0,
 
             _receiveData: function _receiveData(request, data) {
-                this._cleanup(request);
+                jsonpClient._cleanup(request);
 
                 if (request.aborted) {
                     return;
@@ -103,7 +68,7 @@
 
             _scriptLoadCallback: function _scriptLoadCallback(request, error) {
                 if (error) {
-                    this._cleanup(request);
+                    jsonpClient._cleanup(request);
                     if (!request.aborted) {
                         request.callback(error);
                     }
@@ -123,13 +88,15 @@
                 }
             }
         };
+
+        return jsonpClient;
     }
 
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define([], factory);
+        define(['scriptloader'], factory);
     } else {
         // Browser globals
-        global.jsonpClient = factory();
+        global.jsonpClient = factory(scriptloader);
     }
 }(this, this.document, this.setTimeout, this.clearTimeout));

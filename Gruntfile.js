@@ -6,8 +6,8 @@ module.exports = function(grunt) {
 
     clean: {
       cov: ['cov.html'],
-      dist: ["<%= pkg.name %>.min.js"],
-      build_residues: ["<%= pkg.name %>.js"]
+      dist: ["<%= pkg.name %>.min.js", "<%= pkg.name %>.standalone.min.js"],
+      build_residues: ["<%= pkg.name %>.js", "<%= pkg.name %>.standalone.js"]
     },
     test: {
       dev: ['test/**/testrunner*.html'],
@@ -19,6 +19,20 @@ module.exports = function(grunt) {
           baseUrl: "./src",
           name: "<%= pkg.name %>",
           out: "<%= pkg.name %>.js",
+          paths: {
+            'scriptloader': 'empty:'
+          },
+          optimize: "none"
+        }
+      },
+      standalone: {
+        options: {
+          baseUrl: "./src",
+          name: "<%= pkg.name %>",
+          out: "<%= pkg.name %>.standalone.js",
+          paths: {
+            'scriptloader': '../bower_components/scriptloader/scriptloader.min'
+          },
           optimize: "none"
         }
       }
@@ -28,12 +42,17 @@ module.exports = function(grunt) {
         files: {
           '<%= pkg.name %>.min.js': ['<%= pkg.name %>.js']
         }
+      },
+      standalone: {
+        files: {
+          '<%= pkg.name %>.standalone.min.js': ['<%= pkg.name %>.standalone.js']
+        }
       }
     },
     'check-coverage': {
       src: ['src/**/*.js'],
       options: {
-        minimumCov: 64,
+        minimumCov: 93,
         testRunnerFile: 'test/testrunner.html'
       }
     },
@@ -41,6 +60,7 @@ module.exports = function(grunt) {
       options: {
         ignore: [
           '<%= pkg.name %>.min.js',
+          '<%= pkg.name %>.standalone.min.js',
           'cov.html'
         ]
       }
@@ -50,6 +70,9 @@ module.exports = function(grunt) {
         files: [{
           src: ['<%= pkg.name %>.js'],
           dest: '<%= pkg.name %>.min.js'
+        }, {
+          src: ['<%= pkg.name %>.standalone.js'],
+          dest: '<%= pkg.name %>.standalone.min.js'
         }]
       }
     },
