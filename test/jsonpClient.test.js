@@ -114,9 +114,10 @@
 
         describe('jsonpClient', function() {
             var loadScriptStub;
-            var expectedResult = {};
+            var expectedResult;
 
             beforeEach(function() {
+                expectedResult = {};
                 loadScriptStub = stubLoadScript({
                     scriptAction: function() {
                         global._jsonp_loader_callback_request_0(expectedResult);
@@ -127,7 +128,6 @@
             afterEach(function() {
                 loadScriptStub.restore();
                 delete global._jsonp_loader_callback_request_0;
-                delete jsonpClient._firstScript;
                 jsonpClient._requestsCount = 0;
             });
 
@@ -223,6 +223,49 @@
 
                     done();
                 });
+            });
+
+            it('should handle correctly jsonp responses without data', function(done) {
+                expectedResult = undefined;
+                jsonpClient.get('fixtures/jsonp-sample.js', function(error, result) {
+                    chai.assert.equal(error && error.message, 'no data received');
+                    chai.assert.strictEqual(result, undefined);
+
+                    done();
+                });
+            });
+
+            it('should handle correctly timedout requests', function(done) {
+                delete loadScriptStub.options.yieldsSuccess;
+
+                var count = 0;
+                var error;
+                var result;
+
+                function callback(err, res) {
+                    error = err;
+                    result = res;
+                    count++;
+                }
+
+                jsonpClient.get({
+                    url: 'fixtures/jsonp-sample.js',
+                    timeout: 1
+                }, callback);
+
+                var dataCatcher = global._jsonp_loader_callback_request_0;
+
+                setTimeout(function() {
+                    loadScriptStub.setLoaded(true);
+                    dataCatcher();
+                    setTimeout(function() {
+                        chai.assert.strictEqual(count, 1);
+                        chai.assert.equal(error && error.message, 'jsonp request aborted');
+                        chai.assert.strictEqual(result, undefined);
+
+                        done();
+                    }, 10);
+                }, 10);
             });
         });
     }
