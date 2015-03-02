@@ -1,4 +1,4 @@
-(function(global, document, setTimeout, clearTimeout) {
+(function(global, setTimeout, clearTimeout) {
     "use strict";
 
     function factory(scriptloader) {
@@ -99,4 +99,4 @@
         // Browser globals
         global.jsonpClient = factory(scriptloader);
     }
-}(this, this.document, this.setTimeout, this.clearTimeout));
+}(this, this.setTimeout, this.clearTimeout));
