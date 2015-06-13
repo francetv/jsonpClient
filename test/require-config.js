@@ -39,7 +39,7 @@
                         // In browser, add mocha styles
                         var mochaStyle = document.createElement('link');
                         mochaStyle.setAttribute('rel', 'stylesheet');
-                        mochaStyle.setAttribute('href', paths.mocha + '.css');
+                        mochaStyle.setAttribute('href', __BASE_URL__ + paths.mocha + '.css');
                         document.head.appendChild(mochaStyle);
                     }
 
@@ -67,4 +67,4 @@
             mocha.run();
         }
     });
-}(this, this.document, this.__TEST_SUITES__, this.__LIB_PATHS__, this.__BASE_URL__, __COMPONENTS_PATH__));
+}(this, this.document, this.__TEST_SUITES__, this.__LIB_PATHS__, this.__BASE_URL__, this.__COMPONENTS_PATH__));
