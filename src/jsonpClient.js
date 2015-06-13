@@ -1,4 +1,4 @@
-(function(global, document, setTimeout, clearTimeout) {
+(function(global, setTimeout, clearTimeout) {
     "use strict";
 
     function factory(scriptloader) {
@@ -22,7 +22,7 @@
                     request.timeout = jsonpClient._defaultTimeout;
                 }
 
-                request.callbackName = request.callbackName || '_jsonp_loader_callback_request_' + jsonpClient._requestsCount++;
+                request.callbackName = request.callbackName || jsonpClient._callbackNamePrefix + jsonpClient._requestsCount++;
 
                 if (request.timeout) {
                     request.timeoutHandler = setTimeout(jsonpClient._abortRequest.bind(jsonpClient, request), request.timeout);
@@ -35,11 +35,16 @@
                     url = url.replace('{{CALLBACK_NAME}}', request.callbackName);
                 } else {
                     url += ~url.indexOf('?') ? '&' : '?';
-                    url += (request.queryStringKey || 'callback') + '=' + request.callbackName;
+                    url += (request.queryStringKey || jsonpClient._defaultQueryStringKey) + '=' + request.callbackName;
                 }
 
                 scriptloader(url, jsonpClient._scriptLoadCallback.bind(jsonpClient, request));
             },
+
+            _callbackNamePrefix: '_jsonp_loader_callback_request_',
+            _defaultQueryStringKey: 'callback',
+            _msgNoData: 'no data received',
+            _msgAbort: 'jsonp request aborted',
 
             _defaultTimeout: 500,
 
@@ -53,7 +58,7 @@
                 }
 
                 if (!data) {
-                    return request.callback(new Error('no data received'));
+                    return request.callback(new Error(jsonpClient._msgNoData));
                 }
 
                 request.callback(null, data);
@@ -63,7 +68,7 @@
                 request.aborted = true;
                 global[request.callbackName] = function abortedJsonpReceiver() {};
 
-                request.callback(new Error('jsonp request aborted'));
+                request.callback(new Error(jsonpClient._msgAbort));
             },
 
             _scriptLoadCallback: function _scriptLoadCallback(request, error) {
@@ -99,4 +104,4 @@
         // Browser globals
         global.jsonpClient = factory(scriptloader);
     }
-}(this, this.document, this.setTimeout, this.clearTimeout));
+}(this, this.setTimeout, this.clearTimeout));

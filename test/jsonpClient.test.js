@@ -167,7 +167,7 @@
                 loadScriptStub.options.yieldsSuccess = false;
 
                 jsonpClient.get('fixtures/jsonp-sample-not-found.js', function(error, result) {
-                    chai.assert.deepEqual(error, {message:"script load error"}, 'Should get the expected error');
+                    chai.assert.equal(error.message, "script load error", 'Should get the expected error');
                     chai.assert.strictEqual(result, undefined, 'Should not get any result');
                     chai.assert.strictEqual(global._jsonp_loader_callback_request_0, undefined, 'Callback function should be cleaned up');
                     done();
@@ -185,12 +185,12 @@
                 jsonpClient.get(
                     {
                         url: 'fixtures/jsonp-sample-malformed.js',
-                        timeout: 100
+                        timeout: 50
                     },
                     function(error, result) {
                         global.onerror = errorHandlerOrg;
 
-                        chai.expect(error).to.eql({message:"jsonp request aborted"});
+                        chai.expect(error.message).to.equal("jsonp request aborted");
                         chai.expect(result).to.be.undefined;
                         chai.expect(typeof global._jsonp_loader_callback_request_0).to.equal('function');
 
