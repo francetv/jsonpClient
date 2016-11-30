@@ -1,6 +1,6 @@
 {
   "name": "jsonpClient",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "A simple jsonp client",
   "author": "FTVEN",
   "keywords": [
@@ -15,23 +15,17 @@
   },
   "main": "src/jsonpClient.js",
   "scripts": {
-    "postinstall": "bower install",
-    "test": "grunt test"
+    "test": "mocha",
+    "coverage": "istanbul cover _mocha"
   },
   "devDependencies": {
     "bower": "*",
-    "grunt": "*",
-    "grunt-cli": "*",
-    "grunt-contrib-clean": "*",
-    "grunt-contrib-rename": "*",
-    "grunt-contrib-requirejs": "*",
-    "grunt-contrib-uglify": "*",
-    "grunt-contrib-watch": "*",
-    "grunt-mocha-phantomjs": "*",
-    "jscoverage": "*",
-    "json2htmlcov": "git://github.com/francetv/json2htmlcov.git",
-    "mocha-phantomjs": "*",
-    "morkdown": "*"
+    "chai": "^3.5.0",
+    "istanbul": "^0.4.5",
+    "jsdom": "^9.8.3",
+    "mocha": "^3.2.0",
+    "scriptloader": "git+ssh://git@gitlab.ftven.net:bower-component/scriptloader.git#2.0.0",
+    "sinon": "^1.17.6"
   },
   "directories": {
     "test": "test"
