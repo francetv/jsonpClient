@@ -18,13 +18,15 @@
     "test": "mocha",
     "coverage": "istanbul cover _mocha"
   },
+  "dependencies": {
+    "scriptloader": "git+ssh://git@gitlab.ftven.net:bower-component/scriptloader.git#2.0.0"
+  },
   "devDependencies": {
     "bower": "*",
     "chai": "^3.5.0",
     "istanbul": "^0.4.5",
     "jsdom": "^9.8.3",
     "mocha": "^3.2.0",
-    "scriptloader": "git+ssh://git@gitlab.ftven.net:bower-component/scriptloader.git#2.0.0",
     "sinon": "^1.17.6"
   },
   "directories": {
