@@ -55,7 +55,11 @@ function stubLoadScript(options) {
             delete stubObject.errorCallback;
 
             if (success && options.scriptAction) {
-                options.scriptAction();
+                try {
+                    options.scriptAction();
+                } catch(error) {
+                    global.onerror(error);
+                }
             }
 
             callback.call(scriptNode);
@@ -177,15 +181,14 @@ describe('jsonpClient', function() {
         });
     });
 
-    it ('should report error on malformed response', function(done) {
+    it ('should report error on malformed response (request timeout)', function(done) {
         loadScriptStub.options.scriptAction = function() {
-            chai.assert.throws(function(){
-                throw new Error('fails');
-            }, 'fails');
+            throw new Error('fails');
         };
 
         var errorHandlerOrg = global.onerror;
-        global.onerror = function() {};
+        var spy = sinon.spy();
+        global.onerror = spy;
 
         jsonpClient.get(
             {
@@ -195,6 +198,7 @@ describe('jsonpClient', function() {
             function(error, result) {
                 global.onerror = errorHandlerOrg;
 
+                chai.expect(spy.firstCall.args[0].message).to.equal("fails");
                 chai.expect(error.message).to.equal("jsonp request aborted");
                 chai.expect(result).to.be.undefined;
                 chai.expect(typeof global._jsonp_loader_callback_request_0).to.equal('function');
